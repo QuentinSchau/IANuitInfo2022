@@ -58,7 +58,7 @@ Le résultat de notre modèle sera affiché à l'utilisateur. L'affichage du ré
 
 **Important**
 
-Nous n'avons aucunes données pour entrer notre réseau de neurone. C'est pourquoi, nous allons créer un petit *set* de donnée qui nous servira de s'assurer que notre code tourne. Nous allons, prévoir la possibilité d'entrer notre modèle dans le cas où on récupère un jeu de donnée complet. Dans la suite de cette partie, nous supposons que nous avons une base de données sur la quelle on peut entrainer notre modèle. 
+Nous n'avons aucunes données pour entrainer notre réseau de neurone. C'est pourquoi, nous allons créer un petit *set* de donnée qui nous servira de s'assurer que notre code tourne. Nous allons, prévoir la possibilité d'entrainer notre modèle dans le cas où on récupère un jeu de donnée complet. Dans la suite de cette partie, nous supposons que nous avons une base de données sur la quelle on peut entrainer notre modèle. 
 
 Une première architecture de réseau de neurone, nous avons choisie une architecture classique. Il s'agit d'un MLP ([Multi Layer Perceptron](https://reunir.unir.net/bitstream/handle/123456789/11569/ijimai20164_1_5_pdf_30533.pdf?sequence=1))
 A partir des informations fourni par l'utilisateur, on construit un vecteur $ X \in \mathbb{R}^{26} $, 
@@ -76,7 +76,7 @@ Pour optimiser les hyper-paramètre de notre architecture, nous choisissons de m
 
 On a une couche d'entré de dimension $\mathbb{R}^{26}$, On a 3 couches cachées de dimension : $\mathbb{R}^{50}$, une couche caché de dimension $\mathbb{R}^{25}$ et la couche de sortie de dimension $\mathbb{R}^{2}$ 
 
-<img src="nn.svg" alt="drawing" width="800"/>
+<center><img src="./images/nn.svg" alt="drawing" width="800"/></center>
 
 2. Les fonctions d'activations :
 Sur chaque couche caché, nous utilisons comme fonction de d'activation, la fonction $relu(x)= max(x,0)$. Pour la couche de sorti, nous utilisons la fonction $softmax$ (cela permet d'obtenir une probabilité)
@@ -93,7 +93,7 @@ Pour rappel, nous avons fait l'hypothèse que nous avons une base de donnée que
 
 La base de données suit la structure suivante : 
 
-| id | $c_{1,1}$ | $c_{1,2}$ | $c_{1,3}$ | $c_{1,4}$ | $c_{1,5}$ | $c_{1,6}$ | $c_{1,7}$ | $c_{1,8}$ | $c_{1,9}$ | $c_{2}$ | $c_{3}$ | $c_{4}$ | $c_{5}$ | $c_{6,1}$ | $c_{6,2}$ |  $c_{7}$ |$c_{8}$ | $c_{9}$ | $c_{10}$ | $c_{11}$ | $c_{12}$ | $c_{13}$ | $c_{14}$ | $c_{15,1}$ | $c_{15,2}$ |
+| id | $c_{1,1}$ | $c_{1,2}$ | $c_{1,3}$ | $c_{1,4}$ | $c_{1,5}$ | $c_{1,6}$ | $c_{1,7}$ | $c_{1,8}$ | $c_{1,9}$ | $c_{2}$ | $c_{3}$ | $c_{4}$ | $c_{5}$ | $c_{6,1}$ | $c_{6,2}$ |  $c_{7}$ |$c_{8}$ | $c_{9}$ | $c_{10}$ | $c_{11}$ | $c_{12}$ | $c_{13}$ | $c_{14}$ | $c_{15,1}$ | $c_{15,2}$ | malade |
 
 où $c_i$ correspond à la $i^{\grave{e}me} $ caractéristique renseigner par l'utilisateur (Cf. [Utilisation](#utilisation))
 
@@ -103,6 +103,14 @@ Si nous avons qu'une seul base de donnée, alors on suit la procédure suivante 
 
 - On fait un permutation sur toutes les lignes de la base
 - On mets en place une cross-validation pour faire l'entrainement. La cross-validation se fait avec un pas de 3. 
-- On coupe la base en 3 parts égales. On réalise l'apprentissage sur 4 parties de la base, une partie va servir pour tester notre modèle. Puis on recommence le procédé en changement les parties. Voici une illustration :
+- On coupe la base en 3 parts égales. On réalise l'apprentissage sur 2 parties de la base, une partie va servir pour tester notre modèle. Puis on recommence le procédé en changement les parties. Voici une illustration :
 
-<img src="./images/cross-validation.png" alt="image" width="300"/>
+<center><img src="./images/cross-validation.png" alt="image" width="300"/></center>
+
+Si nous avons plusieurs bases de données alors on utilisera une base de donnée comme base de test. Les autres bases de données serviront à l'apprentissage. On utilise le principe de la cross-validation (avec un pas de 3) sauf que nous faisons un apprentissage sur 2 partie et la dernière partie joue le rôle de base de validation. 
+
+L'avantage d'utiliser une base de validation, c'est que cela permet d'optimiser les hyper-paramètre du modèle.
+
+3. Construction de la base de donnée 
+
+Pour construire une telle base de donnée, nous devons nous rapprocher des services médicaux en utilisant leurs base de données. Une autre solution, pas envisager ni mis en place ici, c'est de laisser la possibilité au utilisateur de remplir leurs informations et d'indiquer s'ils ont été infecté par une IST (Infection Sexuellement Transmissible). L'inconvénient de cette dernière méthode, c'est qu'elle introduit une vulnérabilité. Car elle laisse la possibilité aux utilisateurs de biaiser les données en introduisant des fausses données. 
