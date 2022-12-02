@@ -86,6 +86,17 @@ class MultilayerPerceptron(torch.nn.Module):
         return logits, probas
 
     
+model = MultilayerPerceptron(num_features=num_features,
+                             num_classes=num_classes,
+                            num_hidden_1=num_hidden_1,
+                            num_hidden_2=num_hidden_2,
+                            num_hidden_3=num_hidden_3,
+                            num_hidden_4=num_hidden_4)
+
+model = model.to(device)
+
+optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate) 
+           
 
 
 def compute_accuracy(net, data_loader):
@@ -101,3 +112,46 @@ def compute_accuracy(net, data_loader):
             correct_pred += (predicted_labels == targets).sum()
         return correct_pred.float()/num_examples * 100
     
+train_dataset = IstDataset(csv_path="dataset.csv",transform=normalize)
+train_loader = DataLoader(dataset=train_dataset,batch_size=batch_size,shuffle=True)
+
+
+
+start_time = time.time()
+for epoch in range(num_epochs):
+    model.train()
+    for batch_idx, (features, targets) in enumerate(train_loader):
+        
+        features = features.to(device)
+        targets = targets.to(device)
+        ### FORWARD AND BACK PROP
+        logits, probas = model(features)
+
+        #compute cost for retro-propa
+        cost = F.cross_entropy(logits, targets)
+        optimizer.zero_grad()
+
+        #retro
+        cost.backward()
+
+        ### UPDATE MODEL PARAMETERS
+        optimizer.step()
+            
+        
+        ### LOGGING
+        if not batch_idx % 50:
+            print ('Epoch: %03d/%03d | Batch %03d/%03d | Cost: %.4f' 
+                   %(epoch+1, num_epochs, batch_idx, 
+                     len(train_loader), cost))
+
+    with torch.set_grad_enabled(False):
+        print('Epoch: %03d/%03d training accuracy: %.2f%%' % (
+              epoch+1, num_epochs, 
+              compute_accuracy(model, train_loader)))
+        
+    print('temps passé: %.2f min' % ((time.time() - start_time)/60))
+    
+print("Duree total de l'entrainement: %.2f min" % ((time.time() - start_time)/60))
+
+print("Sauvegarde du modèle")
+torch.save(model.state_dict(),os.path.join('Save_network', 'model'))
