@@ -9,7 +9,7 @@ Nous voulons mettre a disposition une fonctionnalité qui indique à l'utilisate
 
 ### Utilisation :
 
-Pour pouvoir utiliser cette fonctionnalité, l'utilisateur doit saisir des informations. Ces informations seront transmis au modèle qui fera une prédiction. Il est important de dire que les informations sont anonymes et ne seront pas sauvegarde. Une page web dédiée sera consacrée sur le site. Les informations demandées sont issues des différents site officiel comme [ameli](https://www.ameli.fr/assure/sante/themes/mst-ist/symptomes-diagnostic-evolution#text_6515). Il s'agit des informations les plus pertinant pour exprimer un risque d'infection. Sur cette page, l'utilisateur devra renseigner les informations suivantes :
+Pour pouvoir utiliser cette fonctionnalité, l'utilisateur doit saisir des informations. Ces informations seront transmis via un formulaire (format json) au modèle qui fera une prédiction. Il est important de dire que les informations sont anonymes et ne seront pas sauvegarde. Une page web dédiée sera consacrée sur le site. Les informations demandées sont issues des différents site officiel comme [ameli](https://www.ameli.fr/assure/sante/themes/mst-ist/symptomes-diagnostic-evolution#text_6515). Il s'agit des informations les plus pertinant pour exprimer un risque d'infection. Sur cette page, l'utilisateur devra renseigner les informations suivantes :
 
 1. (plusieurs choix) des sympôtes ressenties : 
 
@@ -23,7 +23,7 @@ Pour pouvoir utiliser cette fonctionnalité, l'utilisateur doit saisir des infor
 - une tuméfaction (ganglions) de l'aine 
 - une fièvre
 - de la fatigue
-2. vous avez plusieurs partenaires sexuels 
+2. vous avez eu plusieurs partenaires sexuels 
 3. vous avez déjà été soigné pour une IST
 4. vous avez eu des rapports sexuels non protégés 
 5. (un choix) catégories sociaux professionnel :
@@ -86,6 +86,9 @@ Sur chaque couche caché, nous utilisons comme fonction de d'activation, la fonc
 
 Pour la fonction de loss, nous choisissons la cross-entropy. Il s'agit d'une loss courament utilisé pour la classification. 
 
+4. Algorithme de descente : 
+
+On utilise ADAM pour l'algorithme de descente dans la partie optimisation des poids.
 <ins> Base de donnée : </ins>
 
 Pour rappel, nous avons fait l'hypothèse que nous avons une base de donnée que nous pourrons utiliser pour faire l'apprentissage. 
