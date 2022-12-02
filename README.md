@@ -9,7 +9,7 @@ Nous voulons mettre a disposition une fonctionnalité qui indique à l'utilisate
 
 ### Utilisation :
 
-Pour pouvoir utiliser cette fonctionnalité, l'utilisateur doit saisir des informations. Ces informations seront transmis via un formulaire (format json) au modèle qui fera une prédiction. Il est important de dire que les informations sont anonymes et ne seront pas sauvegarde. Une page web dédiée sera consacrée sur le site. Les informations demandées sont issues des différents site officiel comme [ameli](https://www.ameli.fr/assure/sante/themes/mst-ist/symptomes-diagnostic-evolution#text_6515). Il s'agit des informations les plus pertinant pour exprimer un risque d'infection. Sur cette page, l'utilisateur devra renseigner les informations suivantes :
+Pour pouvoir utiliser cette fonctionnalité, l'utilisateur doit saisir des informations. Ces informations seront transmis via un formulaire (format json et une requête POST) au modèle qui fera une prédiction. Il est important de dire que les informations sont anonymes et ne seront pas sauvegarde. Une page web dédiée sera consacrée sur le site. Les informations demandées sont issues des différents site officiel comme [ameli](https://www.ameli.fr/assure/sante/themes/mst-ist/symptomes-diagnostic-evolution#text_6515). Il s'agit des informations les plus pertinant pour exprimer un risque d'infection. Sur cette page, l'utilisateur devra renseigner les informations suivantes :
 
 1. (plusieurs choix) des sympôtes ressenties : 
 
