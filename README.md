@@ -38,13 +38,13 @@ Pour pouvoir utiliser cette fonctionnalité, l'utilisateur doit saisir des infor
 6. (plusieurs choix) relation sexuelle avec :
 - femme
 - homme
-7. sexe
+7. sexe biologique
 8. consommation d'alcool (verre par semaine)
 9. consommation de drogue (fois par semaine)
 10. transfusion sanguine
 11. greffe d'organe
 12. plaie / blessure récente
-13. Nombre de rapport non protégé
+13. Nombre de rapport non protégé par semaine
 14. Nombre de rapport sexuel par semaine
 15. (plusieur choix) pratique sexuelle :
 - vaginale
@@ -63,6 +63,7 @@ Nous n'avons aucunes données pour entrainer notre réseau de neurone. C'est pou
 Une première architecture de réseau de neurone, nous avons choisie une architecture classique. Il s'agit d'un MLP ([Multi Layer Perceptron](https://reunir.unir.net/bitstream/handle/123456789/11569/ijimai20164_1_5_pdf_30533.pdf?sequence=1))
 A partir des informations fourni par l'utilisateur, on construit un vecteur $ X \in \mathbb{R}^{26} $, 
 
+Pour la sortie, nous choisissons un vecteur en one-hot encoding. C'est-à-dire une vecteur $Y \in \{0,1\}^2 $ où $Y = \begin{pmatrix} \text{a été infecté} \\ \text{n'a pas été infecté} \end{pmatrix} $, cela vaut 1 dans la classe associée.
 <ins> Ce qu'on pourrez faire : </ins>
 
 Pour optimiser les hyper-paramètre de notre architecture, nous choisissons de mettre en place un [grid search](https://link.springer.com/chapter/10.1007/978-3-540-74972-1_17). Nous optimiserons : 
@@ -97,8 +98,11 @@ La base de données suit la structure suivante :
 
 où $c_i$ correspond à la $i^{\grave{e}me} $ caractéristique renseigner par l'utilisateur (Cf. [Utilisation](#utilisation))
 
+Pour les questions ouvertes ont aura 1 si c'est oui 0 sinon. Pour le sexe biologique, 0 correspond à un homme et 1 à une femme. 
+
 2. Utilisation de la base de donnée
 
+Nous normalisons la base de données avec une standartisation $X = \frac{X - \mu}{\sigma}$ où $\mu$ est la moyenne et $\sigma$ est l'écart-type de notre base de donnée. 
 Si nous avons qu'une seul base de donnée, alors on suit la procédure suivante pour la découper :
 
 - On fait un permutation sur toutes les lignes de la base
